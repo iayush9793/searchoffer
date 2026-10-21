@@ -257,20 +257,25 @@
     .brand-logo-anchor {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
       color: var(--white);
     }
 
     .brand-logo-img {
-      height: 38px;
+      height: 52px;
       width: auto;
       object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+
+    .brand-logo-anchor:hover .brand-logo-img {
+      transform: scale(1.05);
     }
 
     .brand-logo-text {
       font-family: var(--font-display);
-      font-size: 1.45rem;
+      font-size: 1.65rem;
       font-weight: 700;
       letter-spacing: -0.5px;
       color: var(--white);
@@ -1830,7 +1835,7 @@
           <path d="M18 36L30 18L42 36H18Z" fill="#ffffff"/>
           <circle cx="30" cy="38" r="4" fill="#fbbf24"/>
         </svg>
-   
+        <span style="font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:800; color:#fff;">SearchOffer<span style="color:#c084fc;">Auto</span></span>
       </div>
       <div class="preloader-bar">
         <div class="preloader-bar-fill"></div>
@@ -1845,13 +1850,13 @@
         <!-- Logo.png with clean fallback -->
         <img src="logo.png" alt="SearchOfferAuto" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('navbar-svg-fallback').style.display='flex';">
         <div id="navbar-svg-fallback" style="display:none; align-items:center; gap:8px;">
-          <svg width="32" height="32" viewBox="0 0 60 60" fill="none">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none">
             <rect width="60" height="60" rx="14" fill="#7928ca"/>
             <path d="M16 38L30 18L44 38H16Z" fill="#ffffff"/>
             <circle cx="30" cy="39" r="4" fill="#fbbf24"/>
           </svg>
         </div>
-  
+        <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
       </a>
 
       <!-- Desktop Nav Menu -->
@@ -2646,14 +2651,14 @@
         <!-- Brand & Mission Column -->
         <div class="footer-brand">
           <a href="#home" class="brand-logo-anchor" style="display:inline-flex;">
-            <img src="logo.png" alt="SearchOfferAuto" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('footer-svg-fallback').style.display='flex';">
+            <img src="logo.png" alt="SearchOfferAuto" class="brand-logo-img" style="height: 54px;" onerror="this.style.display='none'; document.getElementById('footer-svg-fallback').style.display='flex';">
             <div id="footer-svg-fallback" style="display:none; align-items:center; gap:8px;">
-              <svg width="28" height="28" viewBox="0 0 60 60" fill="none">
+              <svg width="46" height="46" viewBox="0 0 60 60" fill="none">
                 <rect width="60" height="60" rx="14" fill="#7928ca"/>
                 <path d="M16 38L30 18L44 38H16Z" fill="#ffffff"/>
               </svg>
             </div>
-       
+            <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
           </a>
           <p>SearchOfferAuto simplifies vehicle insurance comparison, empowering American vehicle owners to discover tailored coverage, transparent rates, and competitive discounts.</p>
           <div style="margin-top: 18px; display: flex; gap: 14px;">

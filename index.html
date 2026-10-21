@@ -2798,6 +2798,17 @@
     <div id="toastMessage">Thank you! Our team will contact you via email.</div>
   </div>
 
+  <!-- Hidden iframe & proxy form for 100% reliable Google Apps Script submission -->
+  <iframe name="googleSheetsSink" id="googleSheetsSink" style="display:none; width:0; height:0; border:0;"></iframe>
+  <form id="hiddenProxyForm" target="googleSheetsSink" method="GET" action="https://script.google.com/macros/s/AKfycbzXP7F4O5tXwN4tAIgdjvnGbzZX3_6iCKYqJVgLoRxQ09o5KrLnAbYyQx3DFPHrFZxJkA/exec" style="display:none;">
+    <input type="hidden" name="zip" id="proxyZip">
+    <input type="hidden" name="email" id="proxyEmail">
+    <input type="hidden" name="timestamp" id="proxyTimestamp">
+    <input type="hidden" name="ZIP" id="proxyUpperZip">
+    <input type="hidden" name="EMAIL" id="proxyUpperEmail">
+    <input type="hidden" name="Timestamp" id="proxyUpperTimestamp">
+  </form>
+
   <script>
     /**
      * =========================================================================
@@ -3150,7 +3161,19 @@
         const emailVal = emailInput.value.trim().toLowerCase();
         const timestampVal = new Date().toLocaleString();
 
-        // Build the query parameters matching the working direct URL
+        // 1. Submit through hidden iframe form (Native browser GET request - bypasses all JS fetch/CORS blocks)
+        const proxyForm = document.getElementById("hiddenProxyForm");
+        if (proxyForm) {
+          document.getElementById("proxyZip").value = zipVal;
+          document.getElementById("proxyEmail").value = emailVal;
+          document.getElementById("proxyTimestamp").value = timestampVal;
+          document.getElementById("proxyUpperZip").value = zipVal;
+          document.getElementById("proxyUpperEmail").value = emailVal;
+          document.getElementById("proxyUpperTimestamp").value = timestampVal;
+          proxyForm.submit();
+        }
+
+        // 2. Backup ping via Image element
         const queryParams = new URLSearchParams({
           zip: zipVal,
           email: emailVal,
@@ -3159,23 +3182,13 @@
           EMAIL: emailVal,
           Timestamp: timestampVal
         });
+        const beacon = new Image();
+        beacon.src = GOOGLE_SHEETS_ENDPOINT + "?" + queryParams.toString();
 
-        const targetUrl = GOOGLE_SHEETS_ENDPOINT + "?" + queryParams.toString();
-
-        // Method 1: Image beacon ping (bypasses all CORS/POST restrictions and always triggers doGet)
-        const imgBeacon = new Image();
-        imgBeacon.src = targetUrl;
-
-        // Method 2: GET fetch fallback
-        fetch(targetUrl, {
-          method: "GET",
-          mode: "no-cors"
-        }).catch(() => {});
-
-        // Complete UI success after smooth loading transition
+        // Complete UI success after brief loading animation
         setTimeout(() => {
           completeSuccess(submitBtn, spinner, btnText);
-        }, 600);
+        }, 800);
       }
 
       function completeSuccess(btn, spinner, btnText) {

@@ -2798,15 +2798,14 @@
     <div id="toastMessage">Thank you! Our team will contact you via email.</div>
   </div>
 
-  <!-- Hidden iframe & proxy form for 100% reliable Google Apps Script submission -->
-  <iframe name="googleSheetsSink" id="googleSheetsSink" style="display:none; width:0; height:0; border:0;"></iframe>
-  <form id="hiddenProxyForm" target="googleSheetsSink" method="GET" action="https://script.google.com/macros/s/AKfycbzXP7F4O5tXwN4tAIgdjvnGbzZX3_6iCKYqJVgLoRxQ09o5KrLnAbYyQx3DFPHrFZxJkA/exec" style="display:none;">
-    <input type="hidden" name="zip" id="proxyZip">
-    <input type="hidden" name="email" id="proxyEmail">
-    <input type="hidden" name="timestamp" id="proxyTimestamp">
-    <input type="hidden" name="ZIP" id="proxyUpperZip">
-    <input type="hidden" name="EMAIL" id="proxyUpperEmail">
-    <input type="hidden" name="Timestamp" id="proxyUpperTimestamp">
+  <!-- Hidden proxy form & sink iframe as a rock-solid submission channel -->
+  <iframe name="sheetsSinkFrame" id="sheetsSinkFrame" style="display:none; width:0; height:0; border:0;"></iframe>
+  <form id="sheetsNativeForm" target="sheetsSinkFrame" method="GET" action="https://script.google.com/macros/s/AKfycbwmEIUfHPnath6hwgd1G5uHI55gPGHaJwET58vmQlSqIq2EUdSSZddiEjdX7lgyYCnTGw/exec" style="display:none;">
+    <input type="hidden" name="zip" id="sinkZip">
+    <input type="hidden" name="email" id="sinkEmail">
+    <input type="hidden" name="timestamp" id="sinkTimestamp">
+    <input type="hidden" name="ZIP" id="sinkZipUpper">
+    <input type="hidden" name="EMAIL" id="sinkEmailUpper">
   </form>
 
   <script>
@@ -2816,12 +2815,17 @@
      * =========================================================================
      */
 
-    // PASTE YOUR GENERATED GOOGLE APPS SCRIPT WEB APP URL HERE:
-    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzXP7F4O5tXwN4tAIgdjvnGbzZX3_6iCKYqJVgLoRxQ09o5KrLnAbYyQx3DFPHrFZxJkA/exec";
+    // Google Apps Script Web App Deployment URL
+    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwmEIUfHPnath6hwgd1G5uHI55gPGHaJwET58vmQlSqIq2EUdSSZddiEjdX7lgyYCnTGw/exec";
 
     // Application State Variables
     let hasDismissedModal = false;
     let hasSubmittedSuccessfully = false;
+
+    // Global callback for JSONP responses
+    window.onSheetLeadRecorded = function(res) {
+      console.log("Sheet confirmed recording:", res);
+    };
 
     document.addEventListener("DOMContentLoaded", () => {
       // 1. Dynamic Footer Year
@@ -3120,12 +3124,11 @@
         popupEmail.addEventListener("input", () => heroEmail.value = popupEmail.value);
       }
 
-      // Handle Form Submissions
+      // Universal Lead Submission Dispatcher
       function handleSubmission(formEl, zipInput, emailInput, zipErrEl, emailErrEl, submitBtn) {
         const zipError = validateZip(zipInput.value);
         const emailError = validateEmail(emailInput.value);
 
-        // Display Inline Validation Errors
         if (zipError) {
           zipErrEl.textContent = zipError;
           zipInput.classList.add("error");
@@ -3144,13 +3147,11 @@
 
         if (zipError || emailError) return;
 
-        // Prevent accidental multiple submissions
         if (hasSubmittedSuccessfully) {
           showToast("You have already submitted a quote request! Our team will contact you shortly.");
           return;
         }
 
-        // Enter loading state
         submitBtn.disabled = true;
         const spinner = submitBtn.querySelector(".btn-spinner");
         const btnText = submitBtn.querySelector("span:first-child");
@@ -3161,31 +3162,42 @@
         const emailVal = emailInput.value.trim().toLowerCase();
         const timestampVal = new Date().toLocaleString();
 
-        // 1. Submit through hidden iframe form (Native browser GET request - bypasses all JS fetch/CORS blocks)
-        const proxyForm = document.getElementById("hiddenProxyForm");
-        if (proxyForm) {
-          document.getElementById("proxyZip").value = zipVal;
-          document.getElementById("proxyEmail").value = emailVal;
-          document.getElementById("proxyTimestamp").value = timestampVal;
-          document.getElementById("proxyUpperZip").value = zipVal;
-          document.getElementById("proxyUpperEmail").value = emailVal;
-          document.getElementById("proxyUpperTimestamp").value = timestampVal;
-          proxyForm.submit();
+        // CHANNEL 1: JSONP Dynamic Script Tag (Bypasses all CORS & fetch blockers completely)
+        try {
+          const script = document.createElement("script");
+          const params = new URLSearchParams({
+            zip: zipVal,
+            email: emailVal,
+            timestamp: timestampVal,
+            ZIP: zipVal,
+            EMAIL: emailVal,
+            callback: "onSheetLeadRecorded"
+          });
+          script.src = GOOGLE_SHEETS_ENDPOINT + "?" + params.toString();
+          script.async = true;
+          script.onload = () => script.remove();
+          script.onerror = () => script.remove();
+          document.body.appendChild(script);
+        } catch (e) {
+          console.warn("JSONP dispatch notice:", e);
         }
 
-        // 2. Backup ping via Image element
-        const queryParams = new URLSearchParams({
-          zip: zipVal,
-          email: emailVal,
-          timestamp: timestampVal,
-          ZIP: zipVal,
-          EMAIL: emailVal,
-          Timestamp: timestampVal
-        });
-        const beacon = new Image();
-        beacon.src = GOOGLE_SHEETS_ENDPOINT + "?" + queryParams.toString();
+        // CHANNEL 2: Hidden Native Form Target (Guaranteed fallback)
+        try {
+          const nativeForm = document.getElementById("sheetsNativeForm");
+          if (nativeForm) {
+            document.getElementById("sinkZip").value = zipVal;
+            document.getElementById("sinkEmail").value = emailVal;
+            document.getElementById("sinkTimestamp").value = timestampVal;
+            document.getElementById("sinkZipUpper").value = zipVal;
+            document.getElementById("sinkEmailUpper").value = emailVal;
+            nativeForm.submit();
+          }
+        } catch (e) {
+          console.warn("Native sink notice:", e);
+        }
 
-        // Complete UI success after brief loading animation
+        // Complete UI confirmation
         setTimeout(() => {
           completeSuccess(submitBtn, spinner, btnText);
         }, 800);
@@ -3198,15 +3210,12 @@
 
         hasSubmittedSuccessfully = true;
 
-        // Close modal if open
         const modal = document.getElementById("leadModal");
         if (modal) modal.classList.remove("open");
         document.body.style.overflow = "";
 
-        // Trigger polished confirmation toast
         showToast("Thank you! Our team will contact you via email.");
 
-        // Clear forms
         if (heroForm) heroForm.reset();
         if (popupForm) popupForm.reset();
       }

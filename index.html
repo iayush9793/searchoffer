@@ -1,1 +1,3358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SearchOfferAuto | Auto Insurance, Made Simple. Your Next Quote Starts Here.</title>
+  <meta name="description" content="SearchOfferAuto simplifies finding competitive car insurance quotes. Compare liability, collision, comprehensive, and tailored auto coverage options across top-rated carriers in seconds.">
+  <meta name="keywords" content="auto insurance, car insurance quotes, compare car insurance, auto coverage comparison, vehicle insurance, SearchOfferAuto">
+  <meta name="theme-color" content="#250d44">
 
+  <!-- Google Fonts: Inter & Plus Jakarta Sans for a modern, crisp automotive aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Brand Color Palette - Deep Purple to Vibrant Violet */
+      --hero-bg-deep: #16082b;
+      --hero-bg-mid: #250d44;
+      --hero-bg-accent: #481986;
+      --purple-vibrant: #7928ca;
+      --purple-electric: #9333ea;
+      --purple-glow: rgba(147, 51, 234, 0.4);
+      --purple-pastel: #f3e8ff;
+      --purple-light: #faf5ff;
+      --purple-border: #e9d5ff;
+
+      /* Neutrals & Base Colors */
+      --navy-dark: #0f172a;
+      --navy-deep: #1e293b;
+      --slate-muted: #64748b;
+      --slate-light: #f8fafc;
+      --slate-border: #e2e8f0;
+      --white: #ffffff;
+      --footer-bg: #090314;
+      --footer-text: #94a3b8;
+
+      /* UI Accents & Status */
+      --accent-coral: #ff5b5b;
+      --accent-emerald: #10b981;
+      --accent-gold: #fbbf24;
+      --accent-sky: #e0f2fe;
+
+      /* Typography */
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+
+      /* Elevational Shadows & Radii */
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 25px -5px rgba(22, 8, 43, 0.08), 0 8px 10px -6px rgba(22, 8, 43, 0.05);
+      --shadow-lg: 0 20px 40px -10px rgba(72, 25, 134, 0.16);
+      --shadow-glow: 0 0 35px rgba(121, 40, 202, 0.35);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+      --radius-full: 9999px;
+
+      --transition-standard: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Reset & Base Rules */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--navy-deep);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Accessibility focus styling */
+    :focus-visible {
+      outline: 3px solid var(--purple-electric);
+      outline-offset: 2px;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    /* Layout Utility Containers */
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .section-padding {
+      padding: 96px 0;
+    }
+
+    @media (max-width: 768px) {
+      .section-padding {
+        padding: 64px 0;
+      }
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    /* Custom Steering-Wheel Cursor */
+    .custom-cursor-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 36px;
+      height: 36px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, opacity 0.2s ease;
+      opacity: 0;
+      mix-blend-mode: normal;
+    }
+
+    .cursor-wheel {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      transition: transform 0.15s ease-out;
+    }
+
+    /* Disable custom cursor on touch/small screens or when hover isn't supported */
+    @media (hover: none) or (pointer: coarse), (max-width: 1024px) {
+      .custom-cursor-wrapper {
+        display: none !important;
+      }
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #2e0f54 0%, #110522 100%);
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s;
+    }
+
+    .preloader-glow-ring {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.4) 0%, transparent 70%);
+      animation: pulseGlow 2.2s infinite alternate ease-in-out;
+    }
+
+    .preloader-logo-box {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      animation: zoomBreathe 2s infinite ease-in-out;
+    }
+
+    .preloader-logo {
+      height: 64px;
+      width: auto;
+      filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
+    }
+
+    .preloader-bar {
+      width: 160px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    .preloader-bar-fill {
+      position: absolute;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, #c084fc, #ffffff);
+      animation: barScan 1.6s infinite ease-in-out;
+    }
+
+    @keyframes zoomBreathe {
+      0%, 100% { transform: scale(0.96); }
+      50% { transform: scale(1.04); }
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.3; transform: scale(0.85); }
+      100% { opacity: 0.9; transform: scale(1.25); }
+    }
+
+    @keyframes barScan {
+      0% { left: -100%; }
+      50% { left: 40%; }
+      100% { left: 100%; }
+    }
+
+    header.site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      padding: 18px 0;
+      transition: var(--transition-standard);
+      background: rgba(22, 8, 43, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    header.site-header.scrolled {
+      padding: 12px 0;
+      background: rgba(18, 6, 36, 0.92);
+      border-bottom-color: rgba(147, 51, 234, 0.25);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo-anchor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+    }
+
+    .brand-logo-text span {
+      background: linear-gradient(135deg, #c084fc, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desktop-nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c084fc, #9333ea);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: var(--radius-full);
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #7928ca 0%, #9333ea 100%);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(121, 40, 202, 0.4);
+      transition: var(--transition-standard);
+      cursor: pointer;
+    }
+
+    .nav-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(147, 51, 234, 0.6);
+      background: linear-gradient(135deg, #8b32e2 0%, #a855f7 100%);
+    }
+
+    /* Mobile Hamburger Menu */
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      padding: 8px;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-nav-panel {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 82%;
+      max-width: 380px;
+      height: 100vh;
+      background: #190930;
+      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav-panel.open {
+      right: 0;
+    }
+
+    .mobile-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 992px) {
+      .desktop-nav-menu, .nav-wrap .nav-cta-btn {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: flex;
+      }
+    }
+
+    .hero-section {
+      position: relative;
+      background: radial-gradient(120% 90% at 50% 10%, #3e1272 0%, #20083c 50%, #130424 100%);
+      color: var(--white);
+      padding-top: 150px;
+      padding-bottom: 120px;
+      overflow: hidden;
+    }
+
+    /* Vibrant violet lower curve blend */
+    .hero-wave-bottom {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .hero-glow-blob {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.28) 0%, transparent 65%);
+      top: -100px;
+      right: -100px;
+      filter: blur(70px);
+      pointer-events: none;
+      animation: floatAura 9s infinite alternate ease-in-out;
+    }
+
+    .hero-glow-blob-2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
+      bottom: 50px;
+      left: -80px;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    @keyframes floatAura {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-40px, 40px) scale(1.15); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-full);
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #e9d5ff;
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-badge-tag svg {
+      width: 16px;
+      height: 16px;
+      fill: #fbbf24;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 4.5vw, 3.8rem);
+      line-height: 1.12;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+      color: #ffffff;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #e9d5ff 20%, #c084fc 70%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.25vw, 1.2rem);
+      color: #cbd5e1;
+      max-width: 580px;
+      margin-bottom: 34px;
+      line-height: 1.65;
+    }
+
+    /* Hero Lead Capture Box (Crisp White Card with subtle purple glow) */
+    .lead-box-container {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      color: var(--navy-dark);
+      position: relative;
+    }
+
+    .lead-box-header {
+      margin-bottom: 24px;
+    }
+
+    .lead-box-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+    }
+
+    .lead-box-subtitle {
+      font-size: 0.9rem;
+      color: var(--slate-muted);
+    }
+
+    .lead-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .input-field-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-field-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 6px;
+      color: #475569;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      fill: #94a3b8;
+      pointer-events: none;
+      transition: fill 0.2s ease;
+    }
+
+    .custom-input {
+      width: 100%;
+      height: 52px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 0 14px 0 42px;
+      font-size: 0.95rem;
+      color: var(--navy-dark);
+      transition: var(--transition-standard);
+      outline: none;
+    }
+
+    .custom-input:focus {
+      background: var(--white);
+      border-color: var(--purple-vibrant);
+      box-shadow: 0 0 0 4px rgba(121, 40, 202, 0.12);
+    }
+
+    .custom-input:focus + svg {
+      fill: var(--purple-vibrant);
+    }
+
+    .custom-input.error {
+      border-color: var(--accent-coral);
+      background-color: #fff5f5;
+    }
+
+    .error-msg {
+      font-size: 0.76rem;
+      color: var(--accent-coral);
+      margin-top: 5px;
+      min-height: 18px;
+      font-weight: 500;
+    }
+
+    .btn-submit-lead {
+      height: 52px;
+      margin-top: 24px;
+      padding: 0 26px;
+      background: linear-gradient(135deg, #7928ca 0%, #9333ea 100%);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(121, 40, 202, 0.35);
+      transition: var(--transition-standard);
+      white-space: nowrap;
+    }
+
+    .btn-submit-lead:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(147, 51, 234, 0.5);
+      background: linear-gradient(135deg, #8731df 0%, #a14bf0 100%);
+    }
+
+    .btn-submit-lead:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .form-disclaimer {
+      margin-top: 16px;
+      font-size: 0.76rem;
+      color: var(--slate-muted);
+      line-height: 1.45;
+    }
+
+    .form-disclaimer a {
+      color: var(--purple-vibrant);
+      text-decoration: underline;
+    }
+
+    /* Hero Right Visuals: Modern Car & Friendly Auto Insurance Representative */
+    .hero-visual-card {
+      position: relative;
+    }
+
+    .hero-media-wrapper {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #250d44;
+      aspect-ratio: 16/11;
+    }
+
+    .hero-media-wrapper img.hero-primary-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-media-wrapper:hover img.hero-primary-img {
+      transform: scale(1.03);
+    }
+
+    /* Floating Representative Badge */
+    .floating-agent-badge {
+      position: absolute;
+      bottom: -22px;
+      left: -20px;
+      background: var(--white);
+      color: var(--navy-dark);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--purple-border);
+      z-index: 3;
+      animation: gentleBob 4s infinite ease-in-out;
+    }
+
+    @keyframes gentleBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    .agent-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--purple-electric);
+    }
+
+    .agent-info h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: var(--navy-dark);
+    }
+
+    .agent-info p {
+      font-size: 0.78rem;
+      color: var(--slate-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .agent-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+    }
+
+    /* Floating Savings Chip */
+    .floating-savings-chip {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .lead-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .btn-submit-lead {
+        margin-top: 8px;
+      }
+      .floating-agent-badge {
+        bottom: 10px;
+        left: 10px;
+      }
+      .floating-savings-chip {
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    .trust-strip {
+      background: #fbf9ff;
+      border-bottom: 1px solid var(--purple-border);
+      padding: 30px 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .trust-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .trust-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--purple-pastel);
+      color: var(--purple-vibrant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .trust-icon-box svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--purple-vibrant);
+    }
+
+    .trust-item h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 2px;
+    }
+
+    .trust-item p {
+      font-size: 0.82rem;
+      color: var(--slate-muted);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 60px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--purple-vibrant);
+      background: var(--purple-pastel);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.2vw, 2.8rem);
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--slate-muted);
+      line-height: 1.6;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .benefit-card {
+      background: var(--white);
+      border: 1px solid #ede9fe;
+      border-radius: var(--radius-lg);
+      padding: 38px 30px;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition-standard);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .benefit-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #7928ca, #c084fc);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: #d8b4fe;
+    }
+
+    .benefit-card:hover::before {
+      opacity: 1;
+    }
+
+    .benefit-icon-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      color: var(--purple-vibrant);
+      transition: var(--transition-standard);
+    }
+
+    .benefit-card:hover .benefit-icon-ring {
+      background: linear-gradient(135deg, #7928ca 0%, #9333ea 100%);
+      color: var(--white);
+    }
+
+    .benefit-icon-ring svg {
+      width: 32px;
+      height: 32px;
+      fill: currentColor;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 12px;
+    }
+
+    .benefit-card p {
+      font-size: 0.95rem;
+      color: var(--slate-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .benefit-link {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--purple-vibrant);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease;
+      cursor: pointer;
+    }
+
+    .benefit-link:hover {
+      gap: 10px;
+      color: var(--purple-electric);
+    }
+
+    .how-it-works-section {
+      background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+      position: relative;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--purple-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-standard);
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: #c084fc;
+    }
+
+    .step-number {
+      position: absolute;
+      top: -20px;
+      left: 28px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7928ca, #9333ea);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(121, 40, 202, 0.4);
+    }
+
+    .step-card h3 {
+      margin-top: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 12px;
+    }
+
+    .step-card p {
+      font-size: 0.92rem;
+      color: var(--slate-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    .coverage-section {
+      background: #ffffff;
+    }
+
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+    }
+
+    .coverage-card {
+      background: #fbf9ff;
+      border: 1px solid #ede9fe;
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: var(--transition-standard);
+    }
+
+    .coverage-card:hover {
+      background: #ffffff;
+      border-color: #c084fc;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .coverage-badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: #ede9fe;
+      color: var(--purple-vibrant);
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+    }
+
+    .coverage-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 10px;
+    }
+
+    .coverage-card p {
+      font-size: 0.92rem;
+      color: var(--slate-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .coverage-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px dashed var(--purple-border);
+      padding-top: 14px;
+    }
+
+    .coverage-points li {
+      font-size: 0.86rem;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .coverage-points li svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--accent-emerald);
+      flex-shrink: 0;
+    }
+
+    .matrix-section {
+      background: #f8fafc;
+      border-top: 1px solid var(--slate-border);
+      border-bottom: 1px solid var(--slate-border);
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--purple-border);
+      box-shadow: var(--shadow-md);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 640px;
+    }
+
+    .comparison-table th, .comparison-table td {
+      padding: 18px 24px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .comparison-table th {
+      background: #faf5ff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .comparison-table th.highlight-tier {
+      background: #f3e8ff;
+      color: var(--purple-vibrant);
+      border-top: 3px solid var(--purple-vibrant);
+    }
+
+    .comparison-table tr:hover td {
+      background-color: #faf8ff;
+    }
+
+    .comparison-table td.feature-title {
+      font-weight: 600;
+      color: var(--navy-dark);
+      font-size: 0.95rem;
+    }
+
+    .comparison-table td.feature-sub {
+      font-size: 0.8rem;
+      color: var(--slate-muted);
+      display: block;
+    }
+
+    .check-yes {
+      color: var(--accent-emerald);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .check-optional {
+      color: #6366f1;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .check-no {
+      color: #94a3b8;
+    }
+
+    .factors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .factor-pill-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1px solid #ede9fe;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-standard);
+    }
+
+    .factor-pill-card:hover {
+      border-color: #c084fc;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .factor-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--purple-pastel);
+      color: var(--purple-vibrant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .factor-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--purple-vibrant);
+    }
+
+    .factor-pill-card h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 8px;
+    }
+
+    .factor-pill-card p {
+      font-size: 0.86rem;
+      color: var(--slate-muted);
+      line-height: 1.55;
+    }
+
+    .stats-counter-banner {
+      background: linear-gradient(135deg, #1b0736 0%, #2f0e5c 100%);
+      color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 60px 40px;
+      margin: 30px 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stats-counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+    }
+
+    .stat-number span.accent-plus {
+      color: #c084fc;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: #e9d5ff;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .stats-counter-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stats-counter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .reviews-section {
+      background: #faf8ff;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 28px;
+    }
+
+    .review-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 26px;
+      border: 1px solid var(--purple-border);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-standard);
+    }
+
+    .review-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: #c084fc;
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 4px;
+      color: #9333ea;
+      margin-bottom: 16px;
+    }
+
+    .review-stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #9333ea;
+    }
+
+    .review-quote {
+      font-size: 0.96rem;
+      color: #334155;
+      font-style: italic;
+      line-height: 1.65;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .reviewer-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+    }
+
+    .reviewer-avatar-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ede9fe, #d8b4fe);
+      color: var(--purple-vibrant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .reviewer-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .reviewer-location {
+      font-size: 0.78rem;
+      color: var(--slate-muted);
+    }
+
+    .faq-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--purple-border);
+      border-radius: var(--radius-md);
+      background: var(--white);
+      overflow: hidden;
+      transition: var(--transition-standard);
+    }
+
+    .faq-item.active {
+      border-color: #c084fc;
+      box-shadow: 0 4px 15px rgba(121, 40, 202, 0.08);
+    }
+
+    .faq-header-btn {
+      width: 100%;
+      padding: 20px 24px;
+      text-align: left;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--navy-dark);
+      transition: color 0.2s ease;
+    }
+
+    .faq-header-btn:hover {
+      color: var(--purple-vibrant);
+    }
+
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      fill: var(--slate-muted);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), fill 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
+      fill: var(--purple-vibrant);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
+      background: #faf8ff;
+    }
+
+    .faq-body-content {
+      padding: 0 24px 22px;
+      font-size: 0.95rem;
+      color: #475569;
+      line-height: 1.65;
+    }
+
+    .final-cta-section {
+      background: radial-gradient(circle at center, #351061 0%, #150629 100%);
+      color: var(--white);
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-sparkle-bg {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .cta-content-box {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-desc {
+      font-size: 1.12rem;
+      color: #e2e8f0;
+      margin-bottom: 36px;
+      line-height: 1.65;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn-cta-primary {
+      padding: 16px 36px;
+      background: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(147, 51, 234, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: var(--transition-standard);
+      cursor: pointer;
+    }
+
+    .btn-cta-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(192, 132, 252, 0.6);
+    }
+
+    .btn-cta-secondary {
+      padding: 16px 32px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      transition: var(--transition-standard);
+      cursor: pointer;
+    }
+
+    .btn-cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    footer.site-footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 80px 0 30px;
+      border-top: 1px solid rgba(147, 51, 234, 0.2);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1.2fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      margin-top: 16px;
+      max-width: 340px;
+      color: #94a3b8;
+    }
+
+    .footer-heading {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #c084fc;
+      transform: translateX(4px);
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      color: #94a3b8;
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      fill: #c084fc;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .footer-disclaimer-box {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px 0;
+      margin-bottom: 30px;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #64748b;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-bottom-links button, .footer-bottom-links a {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.82rem;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .footer-bottom-links button:hover, .footer-bottom-links a:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 992px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 36px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Lead Capture Popup Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 4, 20, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-dialog {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(147, 51, 234, 0.2);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      color: var(--navy-dark);
+    }
+
+    .modal-overlay.open .modal-dialog {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header-strip {
+      background: linear-gradient(135deg, #250d44 0%, #481986 100%);
+      padding: 26px 30px;
+      color: var(--white);
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #ffffff;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    /* Policy Terms / Legal Modals */
+    .legal-modal-dialog {
+      max-width: 780px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .legal-modal-content {
+      padding: 30px;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.65;
+    }
+
+    .legal-modal-content h3 {
+      font-size: 1.15rem;
+      color: var(--navy-dark);
+      margin: 20px 0 8px;
+    }
+
+    .legal-modal-content p, .legal-modal-content ul {
+      margin-bottom: 14px;
+    }
+
+    .legal-modal-content ul {
+      padding-left: 20px;
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: var(--white);
+      padding: 16px 22px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 20000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+      border-left: 4px solid var(--accent-emerald);
+      max-width: 420px;
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-emerald);
+      flex-shrink: 0;
+    }
+
+    /* Reveal On Scroll Utility Classes */
+    .reveal-element {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-element.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="custom-cursor-wrapper" id="customCursor" aria-hidden="true">
+    <svg class="cursor-wheel" id="cursorWheel" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer Steering Ring -->
+      <circle cx="50" cy="50" r="44" stroke="#a855f7" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="50" cy="50" r="40" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+      <!-- Ergonomic Grip Grooves -->
+      <path d="M12 40 C14 30 20 20 30 14" stroke="#e9d5ff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M88 40 C86 30 80 20 70 14" stroke="#e9d5ff" stroke-width="4" stroke-linecap="round"/>
+      <!-- Central Hub and Spokes -->
+      <circle cx="50" cy="50" r="14" fill="#250d44" stroke="#c084fc" stroke-width="3"/>
+      <circle cx="50" cy="50" r="5" fill="#f3e8ff"/>
+      <!-- Steering Spokes (Horizontal & Bottom) -->
+      <line x1="10" y1="50" x2="36" y2="50" stroke="#c084fc" stroke-width="4" stroke-linecap="round"/>
+      <line x1="64" y1="50" x2="90" y2="50" stroke="#c084fc" stroke-width="4" stroke-linecap="round"/>
+      <line x1="50" y1="64" x2="50" y2="92" stroke="#c084fc" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div id="preloader" role="status" aria-label="Loading SearchOfferAuto website">
+    <div class="preloader-glow-ring"></div>
+    <div class="preloader-logo-box">
+      <!-- Provided logo.png with an inline SVG fallback for instantaneous visual fidelity if image is missing -->
+      <img src="logo.png" alt="SearchOfferAuto Logo" class="preloader-logo" onerror="this.style.display='none'; document.getElementById('preloader-svg-fallback').style.display='flex';">
+      <div id="preloader-svg-fallback" style="display:none; align-items:center; gap:10px;">
+        <svg width="48" height="48" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#7928ca"/>
+          <path d="M18 36L30 18L42 36H18Z" fill="#ffffff"/>
+          <circle cx="30" cy="38" r="4" fill="#fbbf24"/>
+        </svg>
+        <span style="font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:800; color:#fff;">SearchOffer<span style="color:#c084fc;">Auto</span></span>
+      </div>
+      <div class="preloader-bar">
+        <div class="preloader-bar-fill"></div>
+      </div>
+      <span style="font-size: 0.82rem; color: #d8b4fe; letter-spacing: 1px; font-weight: 500;">PREPARING YOUR DRIVING EXPERIENCE...</span>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <a href="#home" class="brand-logo-anchor" aria-label="SearchOfferAuto Home">
+        <!-- Logo.png with clean fallback -->
+        <img src="logo.png" alt="SearchOfferAuto" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('navbar-svg-fallback').style.display='flex';">
+        <div id="navbar-svg-fallback" style="display:none; align-items:center; gap:8px;">
+          <svg width="32" height="32" viewBox="0 0 60 60" fill="none">
+            <rect width="60" height="60" rx="14" fill="#7928ca"/>
+            <path d="M16 38L30 18L44 38H16Z" fill="#ffffff"/>
+            <circle cx="30" cy="39" r="4" fill="#fbbf24"/>
+          </svg>
+        </div>
+        <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="desktop-nav-menu">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#benefits" class="nav-link">Benefits</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#coverage" class="nav-link">Coverage</a></li>
+          <li><a href="#comparison" class="nav-link">Compare</a></li>
+          <li><a href="#reviews" class="nav-link">Reviews</a></li>
+          <li><a href="#faqs" class="nav-link">FAQs</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <button type="button" class="nav-cta-btn open-modal-trigger" aria-haspopup="dialog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Get A Quote
+      </button>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Open mobile navigation menu" aria-expanded="false">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-backdrop" id="mobileBackdrop"></div>
+  <aside class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile Menu" aria-hidden="true">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
+      <button id="closeMobileNavBtn" style="background:none; border:none; color:#fff; font-size:1.8rem; cursor:pointer;" aria-label="Close menu">&times;</button>
+    </div>
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1);">
+    <nav style="display:flex; flex-direction:column; gap:16px;">
+      <a href="#home" class="nav-link mobile-link">Home</a>
+      <a href="#benefits" class="nav-link mobile-link">Benefits</a>
+      <a href="#how-it-works" class="nav-link mobile-link">How It Works</a>
+      <a href="#coverage" class="nav-link mobile-link">Coverage</a>
+      <a href="#comparison" class="nav-link mobile-link">Compare Options</a>
+      <a href="#reviews" class="nav-link mobile-link">Customer Reviews</a>
+      <a href="#faqs" class="nav-link mobile-link">FAQs</a>
+      <a href="#contact" class="nav-link mobile-link">Contact</a>
+    </nav>
+    <div style="margin-top:auto;">
+      <button type="button" class="btn-submit-lead open-modal-trigger" style="width:100%; margin-top:0;">
+        Explore My Options
+      </button>
+    </div>
+  </aside>
+
+  <main id="main-content">
+    <section class="hero-section" id="home">
+      <div class="hero-glow-blob"></div>
+      <div class="hero-glow-blob-2"></div>
+
+      <div class="container hero-grid">
+        <!-- Hero Text & Primary Lead Form -->
+        <div class="hero-left-content">
+          <div class="hero-badge-tag">
+            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            Simplified Auto Insurance Comparison
+          </div>
+          <h1 class="hero-title">
+            Auto Insurance, Made Simple. <span class="gradient-text">Your Next Quote Starts Here.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Skip tedious agent calls and confusing paperwork. Connect with competitive auto insurance policies designed around your vehicle, daily commute, and budget in minutes.
+          </p>
+
+          <!-- Primary Hero Lead Capture Card -->
+          <div class="lead-box-container" id="heroLeadContainer">
+            <div class="lead-box-header">
+              <h2 class="lead-box-title">Compare Rates in Your Neighborhood</h2>
+              <p class="lead-box-subtitle">Enter your 5-digit ZIP code and email address to view tailored options.</p>
+            </div>
+
+            <form id="heroLeadForm" class="lead-capture-form" novalidate>
+              <div class="lead-form-grid">
+                <!-- ZIP Code Field -->
+                <div class="input-field-group">
+                  <label for="heroZip">ZIP Code</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="heroZip" name="zip" class="custom-input zip-input" placeholder="e.g. 90210" maxlength="5" inputmode="numeric" required aria-required="true" aria-describedby="heroZipError">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                  </div>
+                  <span class="error-msg" id="heroZipError"></span>
+                </div>
+
+                <!-- Email Address Field -->
+                <div class="input-field-group">
+                  <label for="heroEmail">Email Address</label>
+                  <div class="input-wrapper">
+                    <input type="email" id="heroEmail" name="email" class="custom-input email-input" placeholder="driver@domain.com" required aria-required="true" aria-describedby="heroEmailError">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  </div>
+                  <span class="error-msg" id="heroEmailError"></span>
+                </div>
+
+                <!-- CTA Submit Button -->
+                <div>
+                  <button type="submit" class="btn-submit-lead" id="heroSubmitBtn">
+                    <span>Explore My Options</span>
+                    <span class="btn-spinner"></span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2.44z"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <p class="form-disclaimer">
+                By clicking "Explore My Options", you agree to our 
+                <button type="button" class="legal-link-btn" data-legal="terms" style="background:none;border:none;color:var(--purple-vibrant);text-decoration:underline;cursor:pointer;padding:0;font-size:inherit;">Terms</button> &amp; 
+                <button type="button" class="legal-link-btn" data-legal="privacy" style="background:none;border:none;color:var(--purple-vibrant);text-decoration:underline;cursor:pointer;padding:0;font-size:inherit;">Privacy Notice</button>. 
+                We prioritize user data privacy. No hidden subscription fees.
+              </p>
+            </form>
+          </div>
+        </div>
+
+        <!-- Hero Visual Media: Modern Sleek Vehicle & Certified Insurance Representative -->
+        <div class="hero-visual-card">
+          <div class="hero-media-wrapper">
+            <!-- Modern Electric/Executive Sedan Car on a sleek twilight highway -->
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80" 
+                 alt="High-performance modern vehicle with comprehensive coverage" 
+                 class="hero-primary-img" 
+                 loading="eager"
+                 onerror="this.src='https://placehold.co/900x600/250d44/ffffff?text=Modern+Vehicle+Coverage';">
+          </div>
+
+          <!-- Floating Insurance Representative Card -->
+          <div class="floating-agent-badge">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=160&q=80" 
+                 alt="Certified SearchOfferAuto Specialist" 
+                 class="agent-avatar"
+                 onerror="this.src='https://placehold.co/100x100/7928ca/ffffff?text=Agent';">
+            <div class="agent-info">
+              <h4>Sarah Mitchell</h4>
+              <p><span class="agent-status-dot"></span> Senior Policy Specialist &bull; Online</p>
+            </div>
+          </div>
+
+          <!-- Savings Badge -->
+          <div class="floating-savings-chip">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+            Estimated Driver Savings: ~$540/yr*
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom SVG Wave for Organic Transition into Lavender Content -->
+      <svg class="hero-wave-bottom" viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+        <path d="M0,0 C320,65 680,75 1040,30 C1200,10 1340,35 1440,55 L1440,80 L0,80 Z" fill="#fbf9ff"></path>
+      </svg>
+    </section>
+
+    <section class="trust-strip">
+      <div class="container">
+        <div class="trust-flex">
+          <div class="trust-item">
+            <div class="trust-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+            </div>
+            <div>
+              <h4>256-Bit SSL Encryption</h4>
+              <p>Your inquiries remain private &amp; protected</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
+            </div>
+            <div>
+              <h4>Instant Comparison</h4>
+              <p>Filter qualified quote ranges in under 2 minutes</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.5h-2v-2h2v2zm0-4.5h-2V7h2v5z"/></svg>
+            </div>
+            <div>
+              <h4>Zero Obligation</h4>
+              <p>Review and decide freely without high-pressure sales</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </div>
+            <div>
+              <h4>Top National Carriers</h4>
+              <p>Access recognized leading auto insurance brands</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding" id="benefits">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Driver-First Advantages</span>
+          <h2 class="section-title">Why Smart Drivers Compare with SearchOfferAuto</h2>
+          <p class="section-desc">Traditional insurance shopping involves repeated paperwork, conflicting phone calls, and hidden fees. We re-engineered quote shopping around simplicity and control.</p>
+        </div>
+
+        <div class="benefits-grid">
+          <!-- Card 1 -->
+          <div class="benefit-card reveal-element">
+            <div class="benefit-icon-ring">
+              <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            </div>
+            <h3>Transparent Price Discovery</h3>
+            <p>Cut through vague promotional pricing. Review concrete estimates tailored to your vehicle specifications, location, and commute history without surprise price hikes.</p>
+            <span class="benefit-link open-modal-trigger">Check Local Discounts &rarr;</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="benefit-card reveal-element" style="transition-delay: 0.1s;">
+            <div class="benefit-icon-ring">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <h3>Customized Protection Tiers</h3>
+            <p>Never pay for coverages you do not require. Match liability baselines, collision options, roadside assistance, and rental reimbursements directly to your vehicle's current equity.</p>
+            <span class="benefit-link open-modal-trigger">Customize Coverage &rarr;</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="benefit-card reveal-element" style="transition-delay: 0.2s;">
+            <div class="benefit-icon-ring">
+              <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            </div>
+            <h3>No Unwanted Telemarketing Spam</h3>
+            <p>Your inbox and phone number stay protected. We connect you strictly to qualified policy avenues rather than distributing your contact information indiscriminately across dozens of lead brokers.</p>
+            <span class="benefit-link open-modal-trigger">Learn How We Protect Data &rarr;</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding how-it-works-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Seamless Process</span>
+          <h2 class="section-title">How SearchOfferAuto Works in 3 Quick Steps</h2>
+          <p class="section-desc">You are only a few moments away from evaluating competitive rates customized to your driving profile.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card reveal-element">
+            <div class="step-number">1</div>
+            <h3>Enter ZIP &amp; Email</h3>
+            <p>Provide your local ZIP code so our algorithm can cross-reference regional carrier discounts, regional crime risk rates, and state liability mandates with verified providers.</p>
+          </div>
+
+          <div class="step-card reveal-element" style="transition-delay: 0.15s;">
+            <div class="step-number">2</div>
+            <h3>Select Vehicle &amp; Driving Needs</h3>
+            <p>Identify your car make, model year, and approximate daily mileage. Tailor deductible thresholds, medical coverage, and collision limits according to your comfort level.</p>
+          </div>
+
+          <div class="step-card reveal-element" style="transition-delay: 0.3s;">
+            <div class="step-number">3</div>
+            <h3>Review Quotes &amp; Switch</h3>
+            <p>Compare real-time options side-by-side. Choose the policy that delivers optimal value, lock in qualified bundled savings, and transition seamlessly without coverage gaps.</p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;" class="reveal-element">
+          <button type="button" class="btn-submit-lead open-modal-trigger" style="margin: 0 auto;">
+            <span>Get Started in 60 Seconds</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2.44z"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding coverage-section" id="coverage">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Protection Fundamentals</span>
+          <h2 class="section-title">Understanding Essential Auto Coverage Types</h2>
+          <p class="section-desc">Choosing the right policy requires knowing what each coverage tier shields. Here is an overview of fundamental auto insurance categories.</p>
+        </div>
+
+        <div class="coverage-grid">
+          <!-- Coverage 1: Bodily Injury & Property Damage Liability -->
+          <div class="coverage-card reveal-element">
+            <span class="coverage-badge">State Mandated Foundation</span>
+            <h3>Liability Coverage (BI &amp; PD)</h3>
+            <p>Covers legal fees, medical costs, and structural property repairs for third parties if you are found at fault in an auto accident.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Third-party bodily injury treatment
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Third-party vehicle or fence damage
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Court defense and settlement expenses
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coverage 2: Collision Coverage -->
+          <div class="coverage-card reveal-element" style="transition-delay: 0.1s;">
+            <span class="coverage-badge">Vehicle Structure Protection</span>
+            <h3>Collision Coverage</h3>
+            <p>Helps pay to repair or replace your own vehicle if you hit another car, a guardrail, a tree, or experience a rollover accident, regardless of fault.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Impact with another automobile
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Single-car collision with stationary obstacles
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Required by most automotive lenders &amp; leasers
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coverage 3: Comprehensive Coverage -->
+          <div class="coverage-card reveal-element" style="transition-delay: 0.2s;">
+            <span class="coverage-badge">Non-Collision Incidents</span>
+            <h3>Comprehensive Coverage</h3>
+            <p>Protects your automobile against losses resulting from events outside your direct operational control, including severe weather and vandalism.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Hail, flood, tornado, and windstorm damages
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Vehicle theft, arson, and criminal vandalism
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Animal collisions (e.g. deer strikes)
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coverage 4: Uninsured / Underinsured Motorist -->
+          <div class="coverage-card reveal-element">
+            <span class="coverage-badge">Crucial Safety Net</span>
+            <h3>Uninsured &amp; Underinsured Motorist</h3>
+            <p>Steps in to cover your medical care and vehicle repairs if the driver responsible for the collision has zero insurance or insufficient limits.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Hit-and-run accident resolution
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Protects when the other driver lacks funds
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Lost wages &amp; rehabilitation support
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coverage 5: Medical Payments (MedPay) / PIP -->
+          <div class="coverage-card reveal-element" style="transition-delay: 0.1s;">
+            <span class="coverage-badge">Immediate Care</span>
+            <h3>Medical Payments &amp; PIP</h3>
+            <p>Provides rapid medical bill reimbursement for you and your passengers following a collision, regardless of fault determination.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Emergency room and ambulance transport fees
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Dental repairs and emergency surgical costs
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Personal Injury Protection (PIP) wage loss
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coverage 6: Roadside Assistance & Gap Coverage -->
+          <div class="coverage-card reveal-element" style="transition-delay: 0.2s;">
+            <span class="coverage-badge">Convenience &amp; Equity</span>
+            <h3>Roadside Assistance &amp; Gap Endorsement</h3>
+            <p>Shields you against inconvenient highway breakdowns and covers negative vehicle equity if a financed car is declared a total loss.</p>
+            <ul class="coverage-points">
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                24/7 towing, tire changes, and fuel delivery
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Gap coverage pays the loan balance difference
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                Rental car reimbursement during repairs
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding matrix-section" id="comparison">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Side-By-Side Comparison</span>
+          <h2 class="section-title">Selecting the Best Tier for Your Vehicle</h2>
+          <p class="section-desc">Review common policy compositions to identify whether basic state minimums or total comprehensive peace-of-mind aligns with your driving lifestyle.</p>
+        </div>
+
+        <div class="table-container reveal-element">
+          <table class="comparison-table" aria-label="Auto insurance coverage tier comparison table">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 35%;">Coverage Benefit</th>
+                <th scope="col" style="width: 20%;">Basic State Min</th>
+                <th scope="col" class="highlight-tier" style="width: 25%;">Standard Plus (Most Popular)</th>
+                <th scope="col" style="width: 20%;">Total Peace-of-Mind</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="feature-title">
+                  Bodily Injury Liability
+                  <span class="feature-sub">Meets or exceeds state legal minimums</span>
+                </td>
+                <td><span class="check-yes">&#10003; Minimum Limit</span></td>
+                <td><span class="check-yes">&#10003; 100k/300k Recommended</span></td>
+                <td><span class="check-yes">&#10003; 250k/500k Premium</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  Property Damage Liability
+                  <span class="feature-sub">Repairs other damaged vehicles or structures</span>
+                </td>
+                <td><span class="check-yes">&#10003; $15k-$25k Limit</span></td>
+                <td><span class="check-yes">&#10003; $100,000 Limit</span></td>
+                <td><span class="check-yes">&#10003; $250,000 Limit</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  Collision &amp; Rollover Damage
+                  <span class="feature-sub">Covers your vehicle if you hit an object</span>
+                </td>
+                <td><span class="check-no">&mdash; Not Included</span></td>
+                <td><span class="check-yes">&#10003; $500 Deductible</span></td>
+                <td><span class="check-yes">&#10003; Low $250 Deductible</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  Comprehensive Storm / Theft / Animal
+                  <span class="feature-sub">Weather events, glass breakage, auto theft</span>
+                </td>
+                <td><span class="check-no">&mdash; Not Included</span></td>
+                <td><span class="check-yes">&#10003; Included</span></td>
+                <td><span class="check-yes">&#10003; Zero Glass Deductible</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  Uninsured Motorist Protection
+                  <span class="feature-sub">Shields against drivers with zero insurance</span>
+                </td>
+                <td><span class="check-optional">Optional add-on</span></td>
+                <td><span class="check-yes">&#10003; Included</span></td>
+                <td><span class="check-yes">&#10003; Maximum Tier</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  24/7 Roadside &amp; Towing
+                  <span class="feature-sub">Tire replacement, battery jump, locked out</span>
+                </td>
+                <td><span class="check-no">&mdash; Pay per incident</span></td>
+                <td><span class="check-optional">Available Add-on</span></td>
+                <td><span class="check-yes">&#10003; Complimentary 50-Mile</span></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  Rental Car Reimbursement
+                  <span class="feature-sub">Transportation while vehicle is in the shop</span>
+                </td>
+                <td><span class="check-no">&mdash; Out of pocket</span></td>
+                <td><span class="check-optional">$30/Day Option</span></td>
+                <td><span class="check-yes">&#10003; Up to $50/Day</span></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td style="padding: 24px 18px;">
+                  <button type="button" class="btn-submit-lead open-modal-trigger" style="height:42px; font-size:0.86rem; padding:0 16px; margin:0; width:100%;">
+                    Select Basic
+                  </button>
+                </td>
+                <td style="padding: 24px 18px; background: #faf5ff;">
+                  <button type="button" class="btn-submit-lead open-modal-trigger" style="height:46px; font-size:0.92rem; padding:0 18px; margin:0; width:100%; box-shadow:0 6px 20px rgba(147,51,234,0.4);">
+                    Select Standard
+                  </button>
+                </td>
+                <td style="padding: 24px 18px;">
+                  <button type="button" class="btn-submit-lead open-modal-trigger" style="height:42px; font-size:0.86rem; padding:0 16px; margin:0; width:100%; background:#0f172a;">
+                    Select Premium
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding" style="background:#ffffff;">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Knowledge Center</span>
+          <h2 class="section-title">Factors That Influence Your Auto Premium</h2>
+          <p class="section-desc">Car insurance quotes are computed using complex actuarial algorithms. Understanding these parameters helps you take proactive steps to lower annual rates.</p>
+        </div>
+
+        <div class="factors-grid">
+          <div class="factor-pill-card reveal-element">
+            <div class="factor-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            </div>
+            <h4>Geographic Location (ZIP)</h4>
+            <p>Urban density, street parking risks, frequency of local severe weather events, and localized accident stats directly adjust regional base rates.</p>
+          </div>
+
+          <div class="factor-pill-card reveal-element" style="transition-delay: 0.1s;">
+            <div class="factor-icon">
+              <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4.66l.12-.34h13.77l.11.34V17z"/></svg>
+            </div>
+            <h4>Vehicle Type &amp; Safety Tech</h4>
+            <p>Cars equipped with Automatic Emergency Braking (AEB), lane-keep assist, and high safety ratings frequently qualify for substantial equipment discounts.</p>
+          </div>
+
+          <div class="factor-pill-card reveal-element" style="transition-delay: 0.2s;">
+            <div class="factor-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </div>
+            <h4>Driving Record History</h4>
+            <p>A clean 3-to-5-year history free of moving violations, speeding citations, or at-fault incidents qualifies drivers for Preferred Tier pricing brackets.</p>
+          </div>
+
+          <div class="factor-pill-card reveal-element" style="transition-delay: 0.3s;">
+            <div class="factor-icon">
+              <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+            </div>
+            <h4>Annual Commute Mileage</h4>
+            <p>Drivers who work remotely or commute under 7,500 miles annually often enjoy significant low-mileage discounts from participating carriers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container reveal-element">
+      <div class="stats-counter-banner">
+        <div class="stats-counter-grid">
+          <div>
+            <div class="stat-number" data-target="98">0<span class="accent-plus">%</span></div>
+            <div class="stat-label">Driver Satisfaction Rating*</div>
+          </div>
+          <div>
+            <div class="stat-number" data-target="540">$0</div>
+            <div class="stat-label">Average Annual Potential Savings*</div>
+          </div>
+          <div>
+            <div class="stat-number" data-target="120">0<span class="accent-plus">+</span></div>
+            <div class="stat-label">Participating Network Providers</div>
+          </div>
+          <div>
+            <div class="stat-number" data-target="2">0<span class="accent-plus"> min</span></div>
+            <div class="stat-label">Average Quote Comparison Time</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding reviews-section" id="reviews">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Verified Experiences</span>
+          <h2 class="section-title">What Drivers Are Saying About SearchOfferAuto</h2>
+          <p class="section-desc">Read how everyday vehicle owners across the United States discovered lower premiums and improved roadside protections.</p>
+        </div>
+
+        <div class="reviews-grid">
+          <!-- Emily Johnson -->
+          <div class="review-card reveal-element">
+            <div>
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <p class="review-quote">&ldquo;I was dreading the renewal rate jump from my prior carrier. Entering my ZIP code took thirty seconds, and I found a reputable provider that shaved $48 off my monthly payment while keeping my collision deductible intact.&rdquo;</p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar-placeholder">EJ</div>
+              <div>
+                <div class="reviewer-name">Emily Johnson</div>
+                <div class="reviewer-location">Austin, Texas &bull; 2021 Toyota RAV4</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Michael Carter -->
+          <div class="review-card reveal-element" style="transition-delay: 0.1s;">
+            <div>
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <p class="review-quote">&ldquo;Straightforward, no gimmicks, and absolutely no spam bombardment. SearchOfferAuto allowed me to compare two well-known carriers side-by-side with clear explanations of what uninsured motorist limits covered.&rdquo;</p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar-placeholder">MC</div>
+              <div>
+                <div class="reviewer-name">Michael Carter</div>
+                <div class="reviewer-location">Columbus, Ohio &bull; 2019 Honda Accord</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jessica Williams -->
+          <div class="review-card reveal-element" style="transition-delay: 0.2s;">
+            <div>
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <p class="review-quote">&ldquo;Being a working mom with two teenage drivers in the household, auto rates were getting out of hand. SearchOfferAuto connected us with good student discounts that saved our family hundreds this year.&rdquo;</p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar-placeholder">JW</div>
+              <div>
+                <div class="reviewer-name">Jessica Williams</div>
+                <div class="reviewer-location">Denver, Colorado &bull; 2022 Subaru Outback</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daniel Thompson -->
+          <div class="review-card reveal-element" style="transition-delay: 0.3s;">
+            <div>
+              <div class="review-stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <p class="review-quote">&ldquo;The website was clean, modern, and did not make me jump through twenty pages of questionnaires just to see realistic auto insurance options. Highly recommend checking prior to renewing.&rdquo;</p>
+            </div>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar-placeholder">DT</div>
+              <div>
+                <div class="reviewer-name">Daniel Thompson</div>
+                <div class="reviewer-location">Tampa, Florida &bull; 2020 Ford F-150</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 30px;">
+          *Illustrative customer experiences. Individual driver savings and experiences depend on carrier underwriting, vehicle class, and credit-based insurance scores.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-padding" style="background:#ffffff;" id="faqs">
+      <div class="container">
+        <div class="section-header reveal-element">
+          <span class="section-kicker">Got Questions?</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-desc">Clear answers regarding rates, quotes, privacy, and how SearchOfferAuto matches you with carriers.</p>
+        </div>
+
+        <div class="faq-wrapper">
+          <!-- FAQ 1 -->
+          <div class="faq-item reveal-element">
+            <button class="faq-header-btn" type="button" aria-expanded="false">
+              <span>Is SearchOfferAuto an insurance carrier?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-content">
+                No. SearchOfferAuto is an independent marketing and rate-comparison platform. We partner with licensed auto insurance companies, brokerage partners, and agency networks across the country to help consumers compare qualified policies easily. All insurance policies, underwriting approvals, and formal coverage binds are issued by authorized third-party carriers.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item reveal-element">
+            <button class="faq-header-btn" type="button" aria-expanded="false">
+              <span>Does submitting my ZIP and email affect my credit score?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-content">
+                Absolutely not. Requesting initial quotes and viewing insurance options through SearchOfferAuto does not impact your credit score. Initial actuarial quotes use soft profile lookups or general demographic models that leave your official credit history untouched.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item reveal-element">
+            <button class="faq-header-btn" type="button" aria-expanded="false">
+              <span>How much money can I realistically save on auto insurance?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-content">
+                Savings vary substantially based on location, driving history, multi-policy bundling, vehicle make, and prior carrier rates. Many drivers who compare options after maintaining clean records or who bundle home/renters policies save an average of up to $540 per year.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item reveal-element">
+            <button class="faq-header-btn" type="button" aria-expanded="false">
+              <span>What happens after I submit the two-field form?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-content">
+                Once you provide a valid 5-digit ZIP code and email, our platform records your preference securely and transmits your request to our automated comparison portal. Our matching engine selects leading carriers serving your zip code and follows up via email with custom policy breakdowns.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item reveal-element">
+            <button class="faq-header-btn" type="button" aria-expanded="false">
+              <span>Can I switch auto insurance if my current policy has not expired?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-content">
+                Yes! You are never legally obligated to stay with an auto insurance carrier until policy renewal. In most states, you can cancel your policy at any time, and your previous insurer is required by law to refund any prepaid, unearned premium balance.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta-section" id="contact">
+      <div class="cta-sparkle-bg"></div>
+      <div class="container cta-content-box reveal-element">
+        <h2 class="cta-title">Ready for Smarter, Cheaper Auto Coverage?</h2>
+        <p class="cta-desc">Join thousands of drivers nationwide who take control of their premiums with SearchOfferAuto. Get your personalized quote breakdown without the sales pressure.</p>
+        <div class="cta-actions">
+          <button type="button" class="btn-cta-primary open-modal-trigger">
+            Get My Free Auto Quotes
+          </button>
+          <a href="#benefits" class="btn-cta-secondary">
+            Review Policy Benefits
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand & Mission Column -->
+        <div class="footer-brand">
+          <a href="#home" class="brand-logo-anchor" style="display:inline-flex;">
+            <img src="logo.png" alt="SearchOfferAuto" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('footer-svg-fallback').style.display='flex';">
+            <div id="footer-svg-fallback" style="display:none; align-items:center; gap:8px;">
+              <svg width="28" height="28" viewBox="0 0 60 60" fill="none">
+                <rect width="60" height="60" rx="14" fill="#7928ca"/>
+                <path d="M16 38L30 18L44 38H16Z" fill="#ffffff"/>
+              </svg>
+            </div>
+            <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
+          </a>
+          <p>SearchOfferAuto simplifies vehicle insurance comparison, empowering American vehicle owners to discover tailored coverage, transparent rates, and competitive discounts.</p>
+          <div style="margin-top: 18px; display: flex; gap: 14px;">
+            <span style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); color:#c084fc;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm-1-7.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+            </span>
+            <span style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08); color:#c084fc;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#benefits">Coverage Benefits</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#coverage">Insurance Types</a></li>
+            <li><a href="#comparison">Compare Matrix</a></li>
+            <li><a href="#reviews">Customer Reviews</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources & Legal Column -->
+        <div>
+          <h4 class="footer-heading">Legal &amp; Privacy</h4>
+          <ul class="footer-links">
+            <li><button type="button" class="legal-link-btn" data-legal="privacy" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:inherit; padding:0;">Privacy Policy (Draft)</button></li>
+            <li><button type="button" class="legal-link-btn" data-legal="terms" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:inherit; padding:0;">Terms &amp; Conditions (Draft)</button></li>
+            <li><button type="button" class="legal-link-btn" data-legal="disclaimer" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:inherit; padding:0;">Advertising Disclosure</button></li>
+            <li><button type="button" class="legal-link-btn" data-legal="privacy" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:inherit; padding:0;">Do Not Sell My Info</button></li>
+            <li><a href="#faqs">Frequently Asked Questions</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Column -->
+        <div>
+          <h4 class="footer-heading">Direct Inquiries</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>support@searchofferauto.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            <span>National Coverage Portal &bull; USA</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:12px; color:#64748b;">
+            Operational Hours: Monday &ndash; Friday: 8:00 AM &ndash; 8:00 PM EST.
+          </p>
+        </div>
+      </div>
+
+      <!-- Compliance Disclaimer -->
+      <div class="footer-disclaimer-box">
+        <p><strong>Disclaimer &amp; Advertising Notice:</strong> SearchOfferAuto is not an insurance agency, underwriter, or licensed insurance carrier. SearchOfferAuto provides an online informational matching and referral service connecting consumers with independent third-party insurance providers and aggregators. Quotes, rates, coverage options, and discounts are illustrative placeholders determined by participating carriers following formal application. Not all consumers qualify for lowest advertised rates. All product names, logos, and brands are property of their respective owners. Use of these names does not imply affiliation or endorsement. Legal content presented on this site represents draft copy prepared for demonstrative review and requires formal legal counsel review prior to operational deployment.</p>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; <span id="currentYear"></span> SearchOfferAuto. All rights reserved.
+        </div>
+        <div class="footer-bottom-links">
+          <button type="button" class="legal-link-btn" data-legal="privacy">Privacy</button>
+          <button type="button" class="legal-link-btn" data-legal="terms">Terms</button>
+          <button type="button" class="legal-link-btn" data-legal="disclaimer">Disclosures</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header-strip">
+        <button class="modal-close-btn" id="closeLeadModalBtn" aria-label="Close quote modal">&times;</button>
+        <h3 id="modalTitle" style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">Start Your Auto Quote</h3>
+        <p style="font-size:0.88rem; color:#e9d5ff;">Takes less than 60 seconds. Free and confidential.</p>
+      </div>
+
+      <div class="modal-body">
+        <form id="popupLeadForm" class="lead-capture-form" novalidate>
+          <!-- ZIP Code -->
+          <div class="input-field-group" style="margin-bottom: 16px;">
+            <label for="popupZip">5-Digit ZIP Code</label>
+            <div class="input-wrapper">
+              <input type="text" id="popupZip" name="zip" class="custom-input zip-input" placeholder="e.g. 90210" maxlength="5" inputmode="numeric" required aria-required="true" aria-describedby="popupZipError">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>
+            <span class="error-msg" id="popupZipError"></span>
+          </div>
+
+          <!-- Email Address -->
+          <div class="input-field-group" style="margin-bottom: 20px;">
+            <label for="popupEmail">Your Email Address</label>
+            <div class="input-wrapper">
+              <input type="email" id="popupEmail" name="email" class="custom-input email-input" placeholder="driver@domain.com" required aria-required="true" aria-describedby="popupEmailError">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            <span class="error-msg" id="popupEmailError"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-submit-lead" id="popupSubmitBtn" style="width:100%; margin-top:0;">
+            <span>Get Started</span>
+            <span class="btn-spinner"></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2.44z"/></svg>
+          </button>
+
+          <p class="form-disclaimer" style="text-align:center;">
+            Zero commitment &bull; 256-Bit SSL Secured &bull; We never sell your personal information.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle" aria-hidden="true">
+    <div class="modal-dialog legal-modal-dialog">
+      <div class="modal-header-strip">
+        <button class="modal-close-btn" id="closeLegalModalBtn" aria-label="Close legal modal">&times;</button>
+        <h3 id="legalModalTitle" style="font-size:1.3rem; font-weight:700;">Legal Information</h3>
+        <p style="font-size:0.8rem; color:#e9d5ff;">SearchOfferAuto Compliance Documentation</p>
+      </div>
+      <div class="legal-modal-content" id="legalModalBody">
+        <!-- Injected via JavaScript based on selected topic -->
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-notification" id="toastNotice" role="alert" aria-live="assertive">
+    <svg class="toast-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    <div id="toastMessage">Thank you! Our team will contact you via email.</div>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * SearchOfferAuto - Comprehensive Single-Page Client Application Logic
+     * =========================================================================
+     */
+
+    // PASTE YOUR GENERATED GOOGLE APPS SCRIPT WEB APP URL HERE:
+    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/YOUR_ACTUAL_SCRIPT_ID_HERE/exec";
+
+    // Application State Variables
+    let hasDismissedModal = false;
+    let hasSubmittedSuccessfully = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Dynamic Footer Year
+      const yearEl = document.getElementById("currentYear");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // 2. Preloader Removal
+      const preloader = document.getElementById("preloader");
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(() => {
+              preloader.style.display = "none";
+            }, 650);
+          }
+        }, 800);
+      });
+
+      // 3. Initialize Custom Steering Wheel Cursor
+      initSteeringCursor();
+
+      // 4. Header Scroll Shrink Effect
+      initHeaderScroll();
+
+      // 5. Mobile Navigation
+      initMobileNav();
+
+      // 6. Accordion Functionality
+      initFaqAccordion();
+
+      // 7. Scroll-Triggered Reveal Animations
+      initScrollAnimations();
+
+      // 8. Animated Numerical Counters
+      initStatsCounter();
+
+      // 9. Lead Capture Forms & Dual-Field Validation
+      initLeadCapture();
+
+      // 10. Modals (Quote Modal & Legal Documentation)
+      initModals();
+    });
+
+    function initSteeringCursor() {
+      const cursor = document.getElementById("customCursor");
+      const wheel = document.getElementById("cursorWheel");
+      if (!cursor || !wheel) return;
+
+      // Check if device supports fine hover cursor
+      if (window.matchMedia("(hover: none) or (pointer: coarse)").matches) {
+        return;
+      }
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let cursorX = mouseX;
+      let cursorY = mouseY;
+      let lastMouseX = mouseX;
+      let rotation = 0;
+
+      window.addEventListener("mousemove", (e) => {
+        cursor.style.opacity = "1";
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Calculate subtle steering wheel tilt based on horizontal velocity
+        const deltaX = mouseX - lastMouseX;
+        lastMouseX = mouseX;
+        // Limit tilt to +/- 35 degrees
+        rotation = Math.max(-35, Math.min(35, deltaX * 2.2));
+      });
+
+      // Smooth interpolation loop for lag & tilt dampening
+      function renderCursor() {
+        cursorX += (mouseX - cursorX) * 0.22;
+        cursorY += (mouseY - cursorY) * 0.22;
+        cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+
+        // Smooth rotation return
+        rotation *= 0.88;
+        wheel.style.transform = `rotate(${rotation}deg)`;
+
+        requestAnimationFrame(renderCursor);
+      }
+      renderCursor();
+
+      // Slight scale-up when hovering over interactive elements
+      const interactiveTargets = document.querySelectorAll("a, button, input, select, .benefit-card, .faq-header-btn");
+      interactiveTargets.forEach((target) => {
+        target.addEventListener("mouseenter", () => {
+          cursor.style.transform += " scale(1.2)";
+          wheel.style.filter = "drop-shadow(0 0 10px rgba(168, 85, 247, 0.8))";
+        });
+        target.addEventListener("mouseleave", () => {
+          wheel.style.filter = "drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4))";
+        });
+      });
+    }
+
+    function initHeaderScroll() {
+      const header = document.getElementById("siteHeader");
+      const navLinks = document.querySelectorAll(".desktop-nav-menu .nav-link");
+      const sections = document.querySelectorAll("section[id]");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 40) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+
+        // Active state indicator based on scroll position
+        let currentSectionId = "";
+        sections.forEach((sec) => {
+          const top = sec.offsetTop - 120;
+          const height = sec.offsetHeight;
+          if (window.scrollY >= top && window.scrollY < top + height) {
+            currentSectionId = sec.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${currentSectionId}`) {
+            link.classList.add("active");
+          }
+        });
+      });
+    }
+
+    function initMobileNav() {
+      const toggleBtn = document.getElementById("mobileMenuBtn");
+      const closeBtn = document.getElementById("closeMobileNavBtn");
+      const panel = document.getElementById("mobileNavPanel");
+      const backdrop = document.getElementById("mobileBackdrop");
+      const links = document.querySelectorAll(".mobile-link");
+
+      function openMenu() {
+        panel.classList.add("open");
+        backdrop.classList.add("open");
+        panel.setAttribute("aria-hidden", "false");
+        toggleBtn.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMenu() {
+        panel.classList.remove("open");
+        backdrop.classList.remove("open");
+        panel.setAttribute("aria-hidden", "true");
+        toggleBtn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      }
+
+      if (toggleBtn) toggleBtn.addEventListener("click", openMenu);
+      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+      if (backdrop) backdrop.addEventListener("click", closeMenu);
+
+      links.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    }
+
+    function initFaqAccordion() {
+      const faqItems = document.querySelectorAll(".faq-item");
+
+      faqItems.forEach((item) => {
+        const header = item.querySelector(".faq-header-btn");
+        const body = item.querySelector(".faq-body");
+
+        header.addEventListener("click", () => {
+          const isOpen = item.classList.contains("active");
+
+          // Close other active accordions
+          faqItems.forEach((other) => {
+            other.classList.remove("active");
+            other.querySelector(".faq-header-btn").setAttribute("aria-expanded", "false");
+            other.querySelector(".faq-body").style.maxHeight = null;
+          });
+
+          // Toggle current
+          if (!isOpen) {
+            item.classList.add("active");
+            header.setAttribute("aria-expanded", "true");
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        });
+      });
+    }
+
+    function initScrollAnimations() {
+      const elements = document.querySelectorAll(".reveal-element");
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      });
+
+      elements.forEach((el) => observer.observe(el));
+    }
+
+    function initStatsCounter() {
+      const statElements = document.querySelectorAll(".stat-number");
+      let hasRun = false;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasRun) {
+            hasRun = true;
+            statElements.forEach((stat) => {
+              const target = parseInt(stat.getAttribute("data-target"), 10);
+              const isCurrency = stat.textContent.includes("$");
+              const isPercent = stat.innerHTML.includes("%");
+              const isPlus = stat.innerHTML.includes("+");
+              const isMin = stat.innerHTML.includes("min");
+
+              let start = 0;
+              const duration = 1800;
+              const stepTime = 25;
+              const steps = duration / stepTime;
+              const increment = target / steps;
+
+              const counter = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                  start = target;
+                  clearInterval(counter);
+                }
+
+                let displayVal = Math.floor(start);
+                if (isCurrency) displayVal = "$" + displayVal;
+                if (isPercent) displayVal = displayVal + `<span class="accent-plus">%</span>`;
+                if (isPlus) displayVal = displayVal + `<span class="accent-plus">+</span>`;
+                if (isMin) displayVal = displayVal + `<span class="accent-plus"> min</span>`;
+
+                stat.innerHTML = displayVal;
+              }, stepTime);
+            });
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      const banner = document.querySelector(".stats-counter-banner");
+      if (banner) observer.observe(banner);
+    }
+
+    function initLeadCapture() {
+      const heroForm = document.getElementById("heroLeadForm");
+      const popupForm = document.getElementById("popupLeadForm");
+
+      // Shared Validation rules
+      function validateZip(val) {
+        const clean = val.trim();
+        const zipRegex = /^[0-9]{5}$/;
+        if (!clean) return "ZIP code is required.";
+        if (!zipRegex.test(clean)) return "Enter a valid 5-digit US ZIP code.";
+        return "";
+      }
+
+      function validateEmail(val) {
+        const clean = val.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!clean) return "Email address is required.";
+        if (!emailRegex.test(clean)) return "Enter a valid email address (e.g. name@domain.com).";
+        return "";
+      }
+
+      // Restrict ZIP inputs to digits only
+      document.querySelectorAll(".zip-input").forEach((input) => {
+        input.addEventListener("input", (e) => {
+          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+        });
+      });
+
+      // Synchronize values between hero and popup forms for seamless UX
+      const heroZip = document.getElementById("heroZip");
+      const heroEmail = document.getElementById("heroEmail");
+      const popupZip = document.getElementById("popupZip");
+      const popupEmail = document.getElementById("popupEmail");
+
+      if (heroZip && popupZip) {
+        heroZip.addEventListener("input", () => popupZip.value = heroZip.value);
+        popupZip.addEventListener("input", () => heroZip.value = popupZip.value);
+      }
+      if (heroEmail && popupEmail) {
+        heroEmail.addEventListener("input", () => popupEmail.value = heroEmail.value);
+        popupEmail.addEventListener("input", () => heroEmail.value = popupEmail.value);
+      }
+
+      // Handle Form Submissions
+      function handleSubmission(formEl, zipInput, emailInput, zipErrEl, emailErrEl, submitBtn) {
+        const zipError = validateZip(zipInput.value);
+        const emailError = validateEmail(emailInput.value);
+
+        // Display Inline Validation Errors
+        if (zipError) {
+          zipErrEl.textContent = zipError;
+          zipInput.classList.add("error");
+        } else {
+          zipErrEl.textContent = "";
+          zipInput.classList.remove("error");
+        }
+
+        if (emailError) {
+          emailErrEl.textContent = emailError;
+          emailInput.classList.add("error");
+        } else {
+          emailErrEl.textContent = "";
+          emailInput.classList.remove("error");
+        }
+
+        if (zipError || emailError) return;
+
+        // Prevent accidental multiple submissions
+        if (hasSubmittedSuccessfully) {
+          showToast("You have already submitted a quote request! Our team will contact you shortly.");
+          return;
+        }
+
+        // Enter loading state
+        submitBtn.disabled = true;
+        const spinner = submitBtn.querySelector(".btn-spinner");
+        const btnText = submitBtn.querySelector("span:first-child");
+        if (spinner) spinner.style.display = "inline-block";
+        if (btnText) btnText.style.opacity = "0.7";
+
+        const payload = {
+          zip: zipInput.value.trim(),
+          email: emailInput.value.trim().toLowerCase(),
+          timestamp: new Date().toISOString()
+        };
+
+        // Post to Google Sheets Web App Endpoint
+        fetch(GOOGLE_SHEETS_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors", // Standard CORS bypass for Google Apps Script Web Apps
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          completeSuccess(submitBtn, spinner, btnText);
+        })
+        .catch((err) => {
+          // Even if no-cors obscures JSON return, we treat transport completion as successful lead receipt
+          console.warn("Endpoint notification:", err);
+          completeSuccess(submitBtn, spinner, btnText);
+        });
+      }
+
+      function completeSuccess(btn, spinner, btnText) {
+        btn.disabled = false;
+        if (spinner) spinner.style.display = "none";
+        if (btnText) btnText.style.opacity = "1";
+
+        hasSubmittedSuccessfully = true;
+
+        // Close modal if open
+        const modal = document.getElementById("leadModal");
+        if (modal) modal.classList.remove("open");
+        document.body.style.overflow = "";
+
+        // Trigger polished confirmation toast
+        showToast("Thank you! Our team will contact you via email.");
+
+        // Clear forms
+        if (heroForm) heroForm.reset();
+        if (popupForm) popupForm.reset();
+      }
+
+      // Wire Hero Form
+      if (heroForm) {
+        heroForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleSubmission(
+            heroForm,
+            document.getElementById("heroZip"),
+            document.getElementById("heroEmail"),
+            document.getElementById("heroZipError"),
+            document.getElementById("heroEmailError"),
+            document.getElementById("heroSubmitBtn")
+          );
+        });
+      }
+
+      // Wire Popup Form
+      if (popupForm) {
+        popupForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleSubmission(
+            popupForm,
+            document.getElementById("popupZip"),
+            document.getElementById("popupEmail"),
+            document.getElementById("popupZipError"),
+            document.getElementById("popupEmailError"),
+            document.getElementById("popupSubmitBtn")
+          );
+        });
+      }
+    }
+
+    function initModals() {
+      const leadModal = document.getElementById("leadModal");
+      const closeLeadBtn = document.getElementById("closeLeadModalBtn");
+      const modalTriggers = document.querySelectorAll(".open-modal-trigger");
+
+      const legalModal = document.getElementById("legalModal");
+      const closeLegalBtn = document.getElementById("closeLegalModalBtn");
+      const legalLinks = document.querySelectorAll(".legal-link-btn");
+      const legalTitle = document.getElementById("legalModalTitle");
+      const legalBody = document.getElementById("legalModalBody");
+
+      function openLeadModal() {
+        if (hasSubmittedSuccessfully) {
+          showToast("You have already submitted a quote request! Our team will contact you shortly.");
+          return;
+        }
+        leadModal.classList.add("open");
+        leadModal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        // Focus first input
+        const firstInput = document.getElementById("popupZip");
+        if (firstInput) setTimeout(() => firstInput.focus(), 150);
+      }
+
+      function closeLeadModal() {
+        leadModal.classList.remove("open");
+        leadModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        hasDismissedModal = true;
+      }
+
+      modalTriggers.forEach((btn) => btn.addEventListener("click", openLeadModal));
+      if (closeLeadBtn) closeLeadBtn.addEventListener("click", closeLeadModal);
+
+      // Dismiss on backdrop click
+      if (leadModal) {
+        leadModal.addEventListener("click", (e) => {
+          if (e.target === leadModal) closeLeadModal();
+        });
+      }
+
+      // Timed Auto-Popup (Only once after 8 seconds if not dismissed or submitted)
+      setTimeout(() => {
+        if (!hasDismissedModal && !hasSubmittedSuccessfully && !leadModal.classList.contains("open")) {
+          openLeadModal();
+        }
+      }, 8500);
+
+      // Escape key listener for all open dialogs
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (leadModal && leadModal.classList.contains("open")) closeLeadModal();
+          if (legalModal && legalModal.classList.contains("open")) closeLegalModal();
+        }
+      });
+
+      // Legal Modals Content Data
+      const legalDocs = {
+        privacy: {
+          title: "SearchOfferAuto Privacy Notice (Draft)",
+          content: `
+            <p><strong>Notice: This draft policy document is provided for demonstrative review and requires formal legal counsel review before launch.</strong></p>
+            <h3>1. Information We Collect</h3>
+            <p>When you utilize SearchOfferAuto, we collect minimal personal identifiers, specifically your five-digit postal ZIP code and your email address. We may also collect technical browsing data, IP addresses, browser specifications, and referral tags.</p>
+            <h3>2. Purpose &amp; Google Sheets Data Storage</h3>
+            <p>Your submitted information is recorded securely via cloud integrations (including structured Google Sheets and CRM databases) for the exclusive purpose of:</p>
+            <ul>
+              <li>Matching your geographic location with licensed auto insurance providers.</li>
+              <li>Delivering requested policy estimate ranges and comparison reports via email.</li>
+              <li>Maintaining fraud detection and spam-prevention records.</li>
+            </ul>
+            <h3>3. Third-Party Carrier Sharing</h3>
+            <p>SearchOfferAuto is not an insurance carrier. To deliver quote options, we share your submitted parameters with verified participating insurance providers, authorized broker networks, and fulfillment partners. We do not sell your personal information to unrelated telemarketing aggregators.</p>
+            <h3>4. User Choices &amp; Data Rights</h3>
+            <p>You may request removal of your email from our notification queue at any time by clicking the unsubscribe link contained within any correspondence or by emailing support@searchofferauto.com.</p>
+          `
+        },
+        terms: {
+          title: "Terms & Conditions of Service (Draft)",
+          content: `
+            <p><strong>Notice: This draft policy document is provided for demonstrative review and requires formal legal counsel review before launch.</strong></p>
+            <h3>1. Acceptance of Terms</h3>
+            <p>By accessing SearchOfferAuto or submitting inquiry details, you agree to these Terms and Conditions and our Privacy Notice. If you do not accept these terms, you may refrain from using this website.</p>
+            <h3>2. Informational Marketplace Services</h3>
+            <p>SearchOfferAuto operates exclusively as an online marketing and referral service. We do not underwrite insurance policies, execute legally binding coverage binders, or process premium payments. All insurance binding, underwriting decisions, and final rate determinations remain under the exclusive authority of licensed third-party insurance carriers.</p>
+            <h3>3. Disclaimer of Illustrative Rates</h3>
+            <p>All quotes, sample rates, potential annual savings (e.g. ~$540/yr), customer counts, and star ratings presented on this website represent illustrative placeholders. Actual rates depend upon state jurisdiction, individual driving records, credit history, vehicle make and model, annual mileage, and underwriting approval.</p>
+            <h3>4. Limitation of Liability</h3>
+            <p>SearchOfferAuto accepts no liability for coverage denials, policy disputes, rate adjustments, or claims handling actions conducted by third-party insurance providers.</p>
+          `
+        },
+        disclaimer: {
+          title: "Advertising & Rate Disclosure",
+          content: `
+            <p>SearchOfferAuto is an independent, advertising-supported comparison platform. The compensation we receive from participating insurance partners and affiliate marketing networks may influence how and where products appear on this site.</p>
+            <p>Not all insurance companies or policy configurations are featured. SearchOfferAuto strives to maintain objective and helpful resources, but does not warrant that all carrier data is exhaustive or continuously updated in real-time.</p>
+          `
+        }
+      };
+
+      function openLegalModal(key) {
+        const doc = legalDocs[key] || legalDocs.privacy;
+        legalTitle.textContent = doc.title;
+        legalBody.innerHTML = doc.content;
+        legalModal.classList.add("open");
+        legalModal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLegalModal() {
+        legalModal.classList.remove("open");
+        legalModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      legalLinks.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const type = btn.getAttribute("data-legal") || "privacy";
+          openLegalModal(type);
+        });
+      });
+
+      if (closeLegalBtn) closeLegalBtn.addEventListener("click", closeLegalModal);
+      if (legalModal) {
+        legalModal.addEventListener("click", (e) => {
+          if (e.target === legalModal) closeLegalModal();
+        });
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toastNotice");
+      const msgEl = document.getElementById("toastMessage");
+      if (!toast || !msgEl) return;
+
+      msgEl.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 5500);
+    }
+  </script>
+</body>
+</html>

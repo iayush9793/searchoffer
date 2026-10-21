@@ -3150,33 +3150,32 @@
         const emailVal = emailInput.value.trim().toLowerCase();
         const timestampVal = new Date().toLocaleString();
 
-        // Use URLSearchParams for reliable transmission without triggering CORS preflight rejections
-        const formData = new URLSearchParams();
-        formData.append("zip", zipVal);
-        formData.append("email", emailVal);
-        formData.append("timestamp", timestampVal);
-
-        // Also append matching uppercase keys to cover any exact-case script lookups
-        formData.append("ZIP", zipVal);
-        formData.append("EMAIL", emailVal);
-        formData.append("Timestamp", timestampVal);
-
-        // Post to Google Sheets Web App Endpoint
-        fetch(GOOGLE_SHEETS_ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: formData.toString()
-        })
-        .then(() => {
-          completeSuccess(submitBtn, spinner, btnText);
-        })
-        .catch((err) => {
-          console.warn("Endpoint submission fallback notice:", err);
-          completeSuccess(submitBtn, spinner, btnText);
+        // Build the query parameters matching the working direct URL
+        const queryParams = new URLSearchParams({
+          zip: zipVal,
+          email: emailVal,
+          timestamp: timestampVal,
+          ZIP: zipVal,
+          EMAIL: emailVal,
+          Timestamp: timestampVal
         });
+
+        const targetUrl = GOOGLE_SHEETS_ENDPOINT + "?" + queryParams.toString();
+
+        // Method 1: Image beacon ping (bypasses all CORS/POST restrictions and always triggers doGet)
+        const imgBeacon = new Image();
+        imgBeacon.src = targetUrl;
+
+        // Method 2: GET fetch fallback
+        fetch(targetUrl, {
+          method: "GET",
+          mode: "no-cors"
+        }).catch(() => {});
+
+        // Complete UI success after smooth loading transition
+        setTimeout(() => {
+          completeSuccess(submitBtn, spinner, btnText);
+        }, 600);
       }
 
       function completeSuccess(btn, spinner, btnText) {

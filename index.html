@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SearchOfferAuto | Auto Insurance, Made Simple. Your Next Quote Starts Here.</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="fav.png">
+
   <meta name="description" content="SearchOfferAuto simplifies finding competitive car insurance quotes. Compare liability, collision, comprehensive, and tailored auto coverage options across top-rated carriers in seconds.">
   <meta name="keywords" content="auto insurance, car insurance quotes, compare car insurance, auto coverage comparison, vehicle insurance, SearchOfferAuto">
   <meta name="theme-color" content="#250d44">
@@ -12,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="fav.png">
+
   <style>
     :root {
       /* Brand Color Palette - Deep Purple to Vibrant Violet */
@@ -1835,7 +1839,7 @@
           <path d="M18 36L30 18L42 36H18Z" fill="#ffffff"/>
           <circle cx="30" cy="38" r="4" fill="#fbbf24"/>
         </svg>
-     
+        <span style="font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:800; color:#fff;">SearchOffer<span style="color:#c084fc;">Auto</span></span>
       </div>
       <div class="preloader-bar">
         <div class="preloader-bar-fill"></div>
@@ -1856,7 +1860,7 @@
             <circle cx="30" cy="39" r="4" fill="#fbbf24"/>
           </svg>
         </div>
-       
+        <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
       </a>
 
       <!-- Desktop Nav Menu -->
@@ -2658,7 +2662,7 @@
                 <path d="M16 38L30 18L44 38H16Z" fill="#ffffff"/>
               </svg>
             </div>
-            
+            <span class="brand-logo-text">SearchOffer<span>Auto</span></span>
           </a>
           <p>SearchOfferAuto simplifies vehicle insurance comparison, empowering American vehicle owners to discover tailored coverage, transparent rates, and competitive discounts.</p>
           <div style="margin-top: 18px; display: flex; gap: 14px;">
@@ -3142,25 +3146,35 @@
         if (spinner) spinner.style.display = "inline-block";
         if (btnText) btnText.style.opacity = "0.7";
 
-        const payload = {
-          zip: zipInput.value.trim(),
-          email: emailInput.value.trim().toLowerCase(),
-          timestamp: new Date().toISOString()
-        };
+        const zipVal = zipInput.value.trim();
+        const emailVal = emailInput.value.trim().toLowerCase();
+        const timestampVal = new Date().toLocaleString();
+
+        // Use URLSearchParams for reliable transmission without triggering CORS preflight rejections
+        const formData = new URLSearchParams();
+        formData.append("zip", zipVal);
+        formData.append("email", emailVal);
+        formData.append("timestamp", timestampVal);
+
+        // Also append matching uppercase keys to cover any exact-case script lookups
+        formData.append("ZIP", zipVal);
+        formData.append("EMAIL", emailVal);
+        formData.append("Timestamp", timestampVal);
 
         // Post to Google Sheets Web App Endpoint
         fetch(GOOGLE_SHEETS_ENDPOINT, {
           method: "POST",
-          mode: "no-cors", // Standard CORS bypass for Google Apps Script Web Apps
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: formData.toString()
         })
         .then(() => {
           completeSuccess(submitBtn, spinner, btnText);
         })
         .catch((err) => {
-          // Even if no-cors obscures JSON return, we treat transport completion as successful lead receipt
-          console.warn("Endpoint notification:", err);
+          console.warn("Endpoint submission fallback notice:", err);
           completeSuccess(submitBtn, spinner, btnText);
         });
       }
